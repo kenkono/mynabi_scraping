@@ -21,12 +21,14 @@ def set_driver(driver_path,headless_flg):
     # ChromeのWebDriverオブジェクトを作成する。
     # return Chrome(executable_path=os.getcwd() + "\\" + driver_path,options=options)
     # (MAC用)ChromeのWebDriverオブジェクトを作成する。
-    return Chrome(executable_path=os.getcwd() + "/" + "chromedriver",options=options)
+    return Chrome(executable_path=os.getcwd() + "/" + driver_path,options=options)
 
 ### main処理
 def main():
     search_keyword="高収入"
-    # driverを起動
+    #driverを起動
+    # driver=set_driver("chromedriver.exe",False)
+    # (MAC用)driverを起動
     driver=set_driver("chromedriver",False)
     # Webサイトを開く
     driver.get("https://tenshoku.mynavi.jp/")
