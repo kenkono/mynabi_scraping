@@ -41,15 +41,24 @@ def main():
     # ページ終了まで繰り返し取得
     while True:
         # 検索結果の一番上の会社名を取得
-        name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
-        copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
-        status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+        # name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
+        # copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
+        # status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+
+        # 検索結果の推薦文を取得
+        parentElement = driver.find_element_by_class_name("cassetteRecruitRecommend__copy")
+        recommend_list = parentElement.find_elements_by_tag_name("a")
+
         # 1ページ分繰り返し
-        print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
-        for name,copy,status in zip(name_list,copy_list,status_list):
-            print(name.text)
-            print(copy.text)
-            print(status.text)
+        # print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
+        # for name,copy,status in zip(name_list,copy_list,status_list):
+        #     print(name.text)
+        #     print(copy.text)
+        #     print(status.text)
+        print("{}".format(len(recommend_list)))
+        for recommend in zip(recommend_list):
+            print(recommend)
+            print(recommend.text)
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
