@@ -20,6 +20,7 @@ def set_driver(driver_path,headless_flg):
 
     # ChromeのWebDriverオブジェクトを作成する。
     # return Chrome(executable_path=os.getcwd() + "\\" + driver_path,options=options)
+    # (MAC用)ChromeのWebDriverオブジェクトを作成する。
     return Chrome(executable_path=os.getcwd() + "/" + "chromedriver",options=options)
 
 ### main処理
