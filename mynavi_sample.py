@@ -19,13 +19,14 @@ def set_driver(driver_path,headless_flg):
     options.add_argument('--incognito')          # シークレットモードの設定を付与
 
     # ChromeのWebDriverオブジェクトを作成する。
-    return Chrome(executable_path=os.getcwd() + "\\" + driver_path,options=options)
+    # return Chrome(executable_path=os.getcwd() + "\\" + driver_path,options=options)
+    return Chrome(executable_path=os.getcwd() + "/" + "chromedriver",options=options)
 
 ### main処理
 def main():
     search_keyword="高収入"
     # driverを起動
-    driver=set_driver("chromedriver.exe",False)
+    driver=set_driver("chromedriver",False)
     # Webサイトを開く
     driver.get("https://tenshoku.mynavi.jp/")
     time.sleep(5)
