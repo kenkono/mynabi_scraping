@@ -26,7 +26,7 @@ def set_driver(driver_path,headless_flg):
 ### main処理
 def main():
     search_keyword="高収入"
-    # driverを起動
+    #driverを起動
     # driver=set_driver("chromedriver.exe",False)
     # (MAC用)driverを起動
     driver=set_driver("chromedriver",False)
@@ -38,7 +38,7 @@ def main():
     
     # 検索窓に入力
     driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
-    # 検索ボタンクリック
+    # 検索ボタンクリックcd
     driver.find_element_by_class_name("topSearch__button").click()
     
     # ページ終了まで繰り返し取得
@@ -50,17 +50,20 @@ def main():
 
         # 検索結果の推薦文を取得
         parentElements = driver.find_elements_by_class_name("cassetteRecruit__copy")
-        print("{}".format(len(parentElements)))
+        print(len(parentElements))
         for parentElement in parentElements:
             recommend = parentElement.find_element_by_tag_name("a")
             print(recommend.text)
-
         # 1ページ分繰り返し
         # print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
         # for name,copy,status in zip(name_list,copy_list,status_list):
         #     print(name.text)
         #     print(copy.text)
         #     print(status.text)
+        #print("{}".format(len(recommend_list)))
+        #for recommend in zip(recommend_list):
+        #    print(recommend)
+        #    print(recommend.text)
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
