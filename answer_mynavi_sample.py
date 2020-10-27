@@ -20,12 +20,15 @@ def set_driver(driver_path,headless_flg):
 
     # ChromeのWebDriverオブジェクトを作成する。
     # return Chrome(executable_path=os.getcwd() + "\\" + driver_path,options=options)
-    return Chrome(executable_path=os.getcwd() + "/" + "chromedriver",options=options)
+    # (MAC用)ChromeのWebDriverオブジェクトを作成する。
+    return Chrome(executable_path=os.getcwd() + "/" + driver_path,options=options)
 
 ### main処理
 def main():
     search_keyword="高収入"
-    # driverを起動
+    #driverを起動
+    # driver=set_driver("chromedriver.exe",False)
+    # (MAC用)driverを起動
     driver=set_driver("chromedriver",False)
     # Webサイトを開く
     driver.get("https://tenshoku.mynavi.jp/")
@@ -35,28 +38,32 @@ def main():
     
     # 検索窓に入力
     driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
-    # 検索ボタンクリック
+    # 検索ボタンクリックcd
     driver.find_element_by_class_name("topSearch__button").click()
     
     # ページ終了まで繰り返し取得
     while True:
         # 検索結果の一番上の会社名を取得
-        name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
-        copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
-        status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
-        condition_list=driver.find_elements_by_class_name("tableCondition__body")
+        # name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
+        # copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
+        # status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+
+        # 検索結果の推薦文を取得
+        parentElements = driver.find_elements_by_class_name("cassetteRecruit__copy")
+        print(len(parentElements))
+        for parentElement in parentElements:
+            recommend = parentElement.find_element_by_tag_name("a")
+            print(recommend.text)
         # 1ページ分繰り返し
-        print("{},{},{},{}".format(len(copy_list),len(status_list),len(name_list),len(condition_list)))
-        for name,copy,status,condition in zip(name_list,copy_list,status_list, condition_list):
-            print(name.text)
-            print(copy.text)
-            print(status.text)
-            parentElements = driver.find_elements_by_class_name("cassetteRecruit__copy")
-            print(len(parentElements))
-            for parentElement in parentElements:
-                recommend = parentElement.find_element_by_tag_name("a")
-                print(recommend.text)
-            print(condition.text)
+        # print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
+        # for name,copy,status in zip(name_list,copy_list,status_list):
+        #     print(name.text)
+        #     print(copy.text)
+        #     print(status.text)
+        #print("{}".format(len(recommend_list)))
+        #for recommend in zip(recommend_list):
+        #    print(recommend)
+        #    print(recommend.text)
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
