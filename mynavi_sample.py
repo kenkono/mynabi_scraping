@@ -1,6 +1,7 @@
 import os
 from selenium.webdriver import Chrome, ChromeOptions
 import time
+import pandas as pd
 
 ### Chromeを起動する関数
 def set_driver(driver_path,headless_flg):
@@ -37,6 +38,9 @@ def main():
     driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
     # 検索ボタンクリック
     driver.find_element_by_class_name("topSearch__button").click()
+
+    # テーブル作成
+    table = []
     
     # ページ終了まで繰り返し取得
     while True:
@@ -50,6 +54,7 @@ def main():
             print(name.text)
             print(copy.text)
             print(status.text)
+            table.append([name.text, copy.text, status.text])
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
@@ -59,6 +64,11 @@ def main():
         else:
             print("最終ページです。終了します。")
             break
+
+    # csv作成
+    Column = ['企業名', 'コピー', 'ステータス']
+    df = pd.DataFrame(table, columns=Column)
+    df.to_csv(r"result.csv", encoding='utf_8_sig')
 
 ### 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
 if __name__ == "__main__":
