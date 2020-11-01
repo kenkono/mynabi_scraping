@@ -1,6 +1,7 @@
 import os
 from selenium.webdriver import Chrome, ChromeOptions
 import time
+import logging
 
 ### Chromeを起動する関数
 def set_driver(driver_path,headless_flg):
@@ -24,6 +25,12 @@ def set_driver(driver_path,headless_flg):
 
 ### main処理
 def main():
+    # ログ出力
+    logging.basicConfig(filename='logfile/logger.log', level=logging.DEBUG)
+    logging.info('error{}'.format('outputting error'))
+    logging.info('warning %s %s' % ('was', 'outputted'))
+
+
     search_keyword="高収入"
     # driverを起動
     driver=set_driver("chromedriver",False)
