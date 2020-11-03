@@ -25,11 +25,8 @@ def set_driver(driver_path,headless_flg):
 
 ### main処理
 def main():
-    # ログ出力
+    # ログ設定
     logging.basicConfig(filename='logfile/logger.log', level=logging.DEBUG)
-    logging.info('error{}'.format('outputting error'))
-    logging.info('warning %s %s' % ('was', 'outputted'))
-
 
     search_keyword="高収入"
     # driverを起動
@@ -38,6 +35,7 @@ def main():
     driver.get("https://tenshoku.mynavi.jp/")
     time.sleep(5)
     # ポップアップを閉じる
+    driver.execute_script('document.querySelector(".karte-close").click()')
     driver.execute_script('document.querySelector(".karte-close").click()')
     
     # 検索窓に入力
@@ -57,14 +55,23 @@ def main():
             print(name.text)
             print(copy.text)
             print(status.text)
+            # ログ出力
+            logging.info('error{}'.format('outputting error'))
+            logging.info('warning %s %s' % ('was', 'outputted'))
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
         if len(next_page)>=1:
             next_page_link=next_page[0].get_attribute("href")
             driver.get(next_page_link)
+            # ログ出力
+            logging.info('error{}'.format('outputting error'))
+            logging.info('warning %s %s' % ('was', 'outputted'))
         else:
             print("最終ページです。終了します。")
+            # ログ出力
+            logging.info('error{}'.format('outputting error'))
+            logging.info('warning %s %s' % ('was', 'outputted'))
             break
 
 ### 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
