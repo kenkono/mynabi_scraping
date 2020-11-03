@@ -2,6 +2,7 @@ import os
 from selenium.webdriver import Chrome, ChromeOptions
 import time
 import logging
+import configparser
 
 ### Chromeを起動する関数
 def set_driver(driver_path,headless_flg):
@@ -26,7 +27,8 @@ def set_driver(driver_path,headless_flg):
 ### main処理
 def main():
     # ログ設定
-    logging.basicConfig(filename='logfile/logger.log', level=logging.DEBUG)
+    formatter = '%(asctime)s:%(message)s'
+    logging.basicConfig(filename='logfile/logger.log', level=logging.DEBUG, format=formatter)
 
     search_keyword="高収入"
     # driverを起動
@@ -45,33 +47,37 @@ def main():
     
     # ページ終了まで繰り返し取得
     while True:
-        # 検索結果の一番上の会社名を取得
-        name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
-        copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
-        status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
-        # 1ページ分繰り返し
-        print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
-        for name,copy,status in zip(name_list,copy_list,status_list):
-            print(name.text)
-            print(copy.text)
-            print(status.text)
-            # ログ出力
-            logging.info('error{}'.format('outputting error'))
-            logging.info('warning %s %s' % ('was', 'outputted'))
+        try:
+            # 検索結果の一番上の会社名を取得
+            name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
+            copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
+            status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+            # 1ページ分繰り返し
+            print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
+            for name,copy,status in zip(name_list,copy_list,status_list):
+                print(name.text)
+                print(copy.text)
+                print(status.text)
+                # ログ出力
+                logging.info('%s', 'success')
+        except Exception as e:
+            logging.info('%s', str(e))
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
-        if len(next_page)>=1:
-            next_page_link=next_page[0].get_attribute("href")
-            driver.get(next_page_link)
-            # ログ出力
-            logging.info('error{}'.format('outputting error'))
-            logging.info('warning %s %s' % ('was', 'outputted'))
-        else:
-            print("最終ページです。終了します。")
-            # ログ出力
-            logging.info('error{}'.format('outputting error'))
-            logging.info('warning %s %s' % ('was', 'outputted'))
+        try:
+            if len(next_page)>=1:
+                next_page_link=next_page[0].get_attribute("href")
+                driver.get(next_page_link)
+                # ログ出力
+                logging.info('%s', 'success')
+            else:
+                print("最終ページです。終了します。")
+                # ログ出力
+                logging.info('%s', 'success')
+                break
+        except Exception as e:
+            logging.info('%s', str(e))
             break
 
 ### 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
