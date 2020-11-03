@@ -32,6 +32,7 @@ def main():
     time.sleep(5)
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
+    driver.execute_script('document.querySelector(".karte-close").click()')
     
     # 検索窓に入力
     driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
@@ -40,33 +41,40 @@ def main():
     
     # ページ終了まで繰り返し取得
     while True:
-        try:
-            # 検索結果の一番上の会社名を取得
-            name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
-            copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
-            status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
-            # 1ページ分繰り返し
-            print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
-            for name,copy,status in zip(name_list,copy_list,status_list):
-                print(name.text)
-                print(copy.text)
-                print(status.text)
+            try:
+                # 検索結果の一番上の会社名を取得
+                name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
+                copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
+                status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+                # 1ページ分繰り返し
+                print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
+                for name,copy,status in zip(name_list,copy_list,status_list):
+                    print(name.text)
+                    print(copy.text)
+                    print(status.text)
+            except Exception as e:
+                print("=== エラー内容 始 ===")
+                print("type:" + str(type(e)))
+                print("args:" + str(e.args))
+                print("e自身:" + str(e))
+                print("=== エラー内容 完 ===")
 
             # 次のページボタンがあればクリックなければ終了
             next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
-            if len(next_page)>=1:
-                next_page_link=next_page[0].get_attribute("href")
-                driver.get(next_page_link)
-            else:
-                print("最終ページです。終了します。")
+            try:
+                if len(next_page)>=1:
+                    next_page_link=next_page[0].get_attribute("href")
+                    driver.get(next_page_link)
+                else:
+                    print("最終ページです。終了します。")
+                    break
+            except Exception as e:
+                print("=== エラー内容 始 ===")
+                print("type:" + str(type(e)))
+                print("args:" + str(e.args))
+                print("e自身:" + str(e))
+                print("=== エラー内容 完 ===")
                 break
-        except Exception as e:
-            pass
-            print("=== エラー内容 始 ===")
-            print("type:" + str(type(e)))
-            print("args:" + str(e.args))
-            print("e自身:" + str(e))
-            print("=== エラー内容 完 ===")
 ### 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
 if __name__ == "__main__":
     main()
