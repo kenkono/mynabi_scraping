@@ -38,6 +38,7 @@ def main():
     time.sleep(5)
     # ポップアップを閉じる
     driver.execute_script('document.querySelector(".karte-close").click()')
+    driver.execute_script('document.querySelector(".karte-close").click()')
     
     # 検索窓に入力
     driver.find_element_by_class_name("topSearch__text").send_keys(search_keyword)
