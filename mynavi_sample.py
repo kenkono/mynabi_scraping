@@ -25,7 +25,9 @@ def set_driver(driver_path,headless_flg):
 
 ### main処理
 def main():
-    search_keyword="高収入"
+    print("検索キーワードを入力してください。")
+    search_keyword = input()
+    # search_keyword="高収入"
     # driverを起動
     # driver=set_driver("chromedriver.exe",False)
     # (MAC用)driverを起動
