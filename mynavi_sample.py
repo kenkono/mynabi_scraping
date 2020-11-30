@@ -44,23 +44,22 @@ def main():
     # ページ終了まで繰り返し取得
     while True:
         # 検索結果の一番上の会社名を取得
-        # name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
-        # copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
-        # status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
-
-        # 検索結果の推薦文を取得
-        parentElements = driver.find_elements_by_class_name("cassetteRecruit__copy")
-        print("{}".format(len(parentElements)))
-        for parentElement in parentElements:
-            recommend = parentElement.find_element_by_tag_name("a")
-            print(recommend.text)
-
+        name_list=driver.find_elements_by_class_name("cassetteRecruit__name")
+        copy_list=driver.find_elements_by_class_name("cassetteRecruit__copy")
+        status_list=driver.find_elements_by_class_name("labelEmploymentStatus")
+        condition_list=driver.find_elements_by_class_name("tableCondition__body")
         # 1ページ分繰り返し
-        # print("{},{},{}".format(len(copy_list),len(status_list),len(name_list)))
-        # for name,copy,status in zip(name_list,copy_list,status_list):
-        #     print(name.text)
-        #     print(copy.text)
-        #     print(status.text)
+        print("{},{},{},{}".format(len(copy_list),len(status_list),len(name_list),len(condition_list)))
+        for name,copy,status,condition in zip(name_list,copy_list,status_list, condition_list):
+            print(name.text)
+            print(copy.text)
+            print(status.text)
+            parentElements = driver.find_elements_by_class_name("cassetteRecruit__copy")
+            print(len(parentElements))
+            for parentElement in parentElements:
+                recommend = parentElement.find_element_by_tag_name("a")
+                print(recommend.text)
+            print(condition.text)
 
         # 次のページボタンがあればクリックなければ終了
         next_page=driver.find_elements_by_class_name("iconFont--arrowLeft")
